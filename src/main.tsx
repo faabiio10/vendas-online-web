@@ -2,11 +2,23 @@ import './main.css';
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { createBrowserRouter, RouteObject, RouterProvider } from "react-router-dom";
+import type { Router as RemixRouter } from '@remix-run/router'
 
-import App from './App.tsx'
+import { loginRoutes } from './modules/login/routes';
+
+const mainRoutes: RouteObject[] = [
+  {
+    path: "/",
+    element: <div>Tela Princial</div>,
+    errorElement: <div>Página não encontrada</div>
+  }
+];
+
+const router: RemixRouter = createBrowserRouter([ ...mainRoutes, ...loginRoutes]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </React.StrictMode>,
 )
