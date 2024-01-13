@@ -20,14 +20,15 @@ export const useRequests = () => {
         });
     };
 
-    const postRequest = async ( url: string, body: unknown) => {
+    const postRequest = async <T>( url: string, body: unknown): Promise<T | undefined> => {
         setLoading(true);
-        const returnData = await connectionAPIPost( url, body)
+        const returnData = await connectionAPIPost<T>( url, body)
         .then( (result) => {
             setNotification('Login efetuado com sucesso!', 'success', 'Aguarde ..');
-            return result
+            return result;
         }).catch(( error: Error) => {
             setNotification(error.message, 'error');
+            return undefined;
         });
 
         setLoading(false);

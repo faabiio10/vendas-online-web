@@ -7,6 +7,7 @@ import { BackgroundImage, ContainerLogin, ContainerLoginScreen, LimitedContainer
 import SVGLogo from "../../../shared/components/icons/SVGLogo";
 import { useRequests } from "../../../shared/hooks/useRequests";
 import { useGlobalContext } from "../../../shared/hooks/useGlobalContext";
+import { UserType } from "../types/userType";
 
 const LoginScreen = () => {
     const { accessToken, setAccessToken } = useGlobalContext();
@@ -23,12 +24,13 @@ const LoginScreen = () => {
     };
 
     const handleLogin = async () => {
-        setAccessToken(' novo Token');
 
-        postRequest('http://localhost:3000/auth', {
+        const user = await postRequest<UserType>('http://localhost:3000/auth', {
             email: email,
             password: password
         });
+
+        setAccessToken(user?.accessToken || '');
     };
 
     return (
@@ -37,7 +39,7 @@ const LoginScreen = () => {
             <ContainerLogin>
                 <LimitedContainer>
                     <SVGLogo />
-                    <TitleLogin level={2} type="secondary">LOGIN</TitleLogin>
+                    <TitleLogin level={2} type="secondary">LOGIN ({accessToken})</TitleLogin>
                     <Input title="Usuário" type="text" margin="32px 0px 0px" onChange={handleEmail} value={email}/>
                     <Input title="Senha" type="password" margin="32px 0px 0px" onChange={handlePassword} value={password}/>
                     <Button loading={loading} type="primary" margin="64px 0px 16px 0px" onClick={handleLogin}>ENTRAR</Button>
