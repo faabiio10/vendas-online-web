@@ -7,17 +7,15 @@ import { BackgroundImage, ContainerLogin, ContainerLoginScreen, LimitedContainer
 import SVGLogo from "../../../shared/components/icons/SVGLogo";
 import { useRequests } from "../../../shared/hooks/useRequests";
 import { useNavigate } from "react-router-dom";
-import { getAuthorizationToken } from "../../../shared/functions/connection/auth";
+import { useGlobalContext } from "../../../shared/hooks/useGlobalContext";
 import { ProductRoutesEnum } from "../../product/routes";
 
 const LoginScreen = () => {
-
+    const { user } = useGlobalContext();
     const navigate = useNavigate();
 
     useEffect( () => {
-        const token = getAuthorizationToken();
-
-        if( token ) {
+        if ( user ) {
             navigate(ProductRoutesEnum.PRODUCT);
         }
     });
