@@ -37,7 +37,7 @@ const LoginScreen = () => {
             <ContainerLogin>
                 <LimitedContainer>
                     <SVGLogo />
-                    <TitleLogin level={2} type="secondary">LOGIN ({accessToken})</TitleLogin>
+                    <TitleLogin level={2} type="secondary">LOGIN</TitleLogin>
                     <Input title="Usuário" type="text" margin="32px 0px 0px" onChange={handleEmail} value={email}/>
                     <Input title="Senha" type="password" margin="32px 0px 0px" onChange={handlePassword} value={password}/>
                     <Button loading={loading} type="primary" margin="64px 0px 16px 0px" onClick={handleLogin}>ENTRAR</Button>
