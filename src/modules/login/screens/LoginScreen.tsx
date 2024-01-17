@@ -22,7 +22,7 @@ const LoginScreen = () => {
 
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
-    const { authRequest, loading } = useRequests();
+    const { AuthRequest, loading } = useRequests();
 
     const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
@@ -33,7 +33,7 @@ const LoginScreen = () => {
     };
 
     const handleLogin = () => {
-        authRequest({
+        AuthRequest({
             email: email,
             password: password
         });
