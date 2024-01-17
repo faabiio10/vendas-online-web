@@ -1,8 +1,6 @@
-import axios from "axios";
-
 import { useState } from "react";
 import { useGlobalContext } from "./useGlobalContext";
-import { connectionAPIPost } from "../functions/connection/conectionAPI";
+import ConnectionAPI, { connectionAPIPost, MethodType } from "../functions/connection/conectionAPI";
 import { URL_AUTH } from "../constants/urls";
 import { ERROR_INVALID_PASSWORD } from "../constants/errorStatus";
 import { ProductRoutesEnum } from "../../modules/product/routes";
@@ -15,16 +13,21 @@ export const useRequests = () => {
     const navigate = useNavigate();
     const { setNotification, setUser } = useGlobalContext();
 
-    const getRequest = async ( url: string) => {
+    const request = async <T>( url: string, method: MethodType, saveGlobal?: (object: T) => void, body?: unknown): Promise<T | undefined> => {
         setLoading(true);
-        return await axios({
-            method: 'get',
-            url: url,
-        }).then( (result) => {
-            return result.data
-        }).catch(() => {
-            alert("Erro");
+
+        const returnData: T | undefined = await ConnectionAPI.connect<T>(url, method, body)
+        .then( (result) => {
+            if( saveGlobal )
+                saveGlobal(result);
+            return result
+        }).catch(( error: Error ) => {
+            setNotification(error.message, 'error');
+            return undefined;
         });
+
+        setLoading(false);
+        return returnData;
     };
 
     const postRequest = async <T>( url: string, body: unknown): Promise<T | undefined> => {
@@ -33,7 +36,7 @@ export const useRequests = () => {
         .then( (result) => {
             setNotification('Login efetuado com sucesso!', 'success', 'Aguarde ..');
             return result;
-        }).catch(( error: Error) => {
+        }).catch(( error: Error ) => {
             setNotification(error.message, 'error');
             return undefined;
         });
@@ -61,7 +64,7 @@ export const useRequests = () => {
     return {
         loading,
         authRequest,
-        getRequest,
+        request,
         postRequest
     };
 };
