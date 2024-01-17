@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
-import { MethodsEnum } from "../../enums/methods.enums";
+import { MethodsEnum } from "../../enums/methods.enum";
 import { ERROR_ACCESS_DENIED, ERROR_CONNECTION } from "../../constants/errorStatus";
 import { getAuthorizationToken } from "./auth";
 
