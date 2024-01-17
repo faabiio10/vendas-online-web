@@ -33,7 +33,6 @@ const LoginScreen = () => {
     };
 
     const handleLogin = () => {
-
         authRequest({
             email: email,
             password: password
